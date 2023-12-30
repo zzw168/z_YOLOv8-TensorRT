@@ -18,7 +18,8 @@ def parse_args():
     parser.add_argument('-w',
                         '--weights',
                         type=str,
-                        required=True,
+                        default='./ball_100_v1.pt',
+                        # required=True,
                         help='PyTorch yolov8 weights')
     parser.add_argument('--iou-thres',
                         type=float,
@@ -46,7 +47,8 @@ def parse_args():
                         help='Model input shape only for api builder')
     parser.add_argument('--device',
                         type=str,
-                        default='cpu',
+                        default=0,
+                        # default='cpu',
                         help='Export ONNX device')
     args = parser.parse_args()
     assert len(args.input_shape) == 4
