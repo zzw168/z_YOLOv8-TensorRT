@@ -18,7 +18,7 @@ def parse_args():
     parser.add_argument('-w',
                         '--weights',
                         type=str,
-                        default='./ball_100_v1.pt',
+                        default='./best.pt',
                         # required=True,
                         help='PyTorch yolov8 weights')
     parser.add_argument('--iou-thres',
@@ -43,7 +43,7 @@ def parse_args():
     parser.add_argument('--input-shape',
                         nargs='+',
                         type=int,
-                        default=[1, 3, 640, 640],
+                        default=[1, 3, 1280, 1280],
                         help='Model input shape only for api builder')
     parser.add_argument('--device',
                         type=str,
