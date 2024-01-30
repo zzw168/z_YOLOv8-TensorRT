@@ -32,8 +32,11 @@ def main(engine='./best.engine', bgr=cv2.imread('./data/01.jpg'), device='cuda:0
     dwdh = torch.asarray(dwdh * 2, dtype=torch.float32, device=device)
     tensor = torch.asarray(tensor, device=device)
     # inference
+    start_time = time.time()
     data = Engine(tensor)
-
+    end_time = time.time()
+    time_consume = end_time - start_time
+    print(time_consume)
     bboxes, scores, labels = det_postprocess(data)
     if bboxes.numel() == 0:
         # if no bounding box
@@ -75,6 +78,7 @@ def z_infer():
     cap = cv2.VideoCapture(0)
     if not cap.isOpened():
         print(f'无法打开摄像头{0}')
+        return
     set_cap(cap)
 
     engine = './best.engine'
@@ -89,11 +93,7 @@ def z_infer():
         ret, frame = cap.read()
         if not ret:
             print(f'无法读取画面{0}')
-        # main(bgr=frame)
         bgr = frame
-        # for image in images:
-        #     save_image = save_path / image.name
-        #     bgr = cv2.imread(str(image))
         draw = bgr.copy()
         bgr, ratio, dwdh = letterbox(bgr, (W, H))
         rgb = cv2.cvtColor(bgr, cv2.COLOR_BGR2RGB)
@@ -101,15 +101,18 @@ def z_infer():
         dwdh = torch.asarray(dwdh * 2, dtype=torch.float32, device=device)
         tensor = torch.asarray(tensor, device=device)
         # inference
+        start_time = time.time()
         data = Engine(tensor)
+        end_time = time.time()
+        time_consume = end_time - start_time
+        print('%f ms' % (time_consume * 1000))
 
         bboxes, scores, labels = det_postprocess(data)
-        # print(labels)
         if bboxes.numel() == 0:
             # if no bounding box
             print(' no object!')
             cv2.imshow('result', draw)
-            time.sleep(0.1)
+            cv2.waitKey(1)
             continue
         bboxes -= dwdh
         bboxes /= ratio
