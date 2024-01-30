@@ -5,8 +5,8 @@ import numpy as np
 random.seed(0)
 
 # detection model classes
-CLASSES = ('green', 'yellow', 'bule', 'orange', 'zi', 'red',
-           'train', 'truck',)
+CLASSES = ('huang', 'xuelan', 'hei', 'cheng', 'tianLan', 'shenLan',
+           'bai', 'hong', 'zong', 'lv', 'xx_s_yello', 'xx_s_white', 'xx_s_red', 'xx_s_black')
 # CLASSES = ('person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus',
 #            'train', 'truck', 'boat', 'traffic light', 'fire hydrant',
 #            'stop sign', 'parking meter', 'bench', 'bird', 'cat', 'dog',
