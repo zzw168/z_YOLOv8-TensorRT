@@ -213,7 +213,7 @@ def deal_simple():
             bgr, ratio, dwdh = letterbox(bgr, (W, H))  # 缩放图片适应模型大小
             rgb = cv2.cvtColor(bgr, cv2.COLOR_BGR2RGB)
             tensor = blob(rgb, return_seg=False)
-            dwdh = torch.asarray(dwdh * 2, dtype=torch.float32, device=device)
+            dwdh = torch.asarray(dwdh * 2, dtype=torch.float16, device=device)
             tensor = torch.asarray(tensor, device=device)
             # inference
             start_time = time.time()
@@ -343,14 +343,14 @@ if __name__ == "__main__":
     camera_frame_array = {}  # 摄像头图片数组
     camera_create()
 
-    # run_thread = {}  # 多线程运行，推理效率暴降
-    # for i in range(0, camera_num):
-    #     run_thread[i] = threading.Thread(target=deal_threads, args=(cap_array[i], i))
-    #     run_thread[i].start()
+    run_thread = {}  # 多线程运行，推理效率暴降
+    for i in range(0, camera_num):
+        run_thread[i] = threading.Thread(target=deal_threads, args=(cap_array[i], i))
+        run_thread[i].start()
 
     # run_thread = threading.Thread(target=deal_simple_pt)
-    run_thread = threading.Thread(target=deal_simple)
-    run_thread.start()
+    # run_thread = threading.Thread(target=deal_simple)
+    # run_thread.start()
 
     show_thread = threading.Thread(target=show_map)
     show_thread.start()
